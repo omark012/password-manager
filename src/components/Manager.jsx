@@ -1,11 +1,13 @@
 import React from "react";
 import { useRef, useState, useEffect } from "react";
 import Passwords from "./Passwords";
+import { v4 as uuidv4 } from "uuid";
 
 const Manager = () => {
   const ref = useRef();
   const passRef = useRef();
   const [form, setForm] = useState({
+    id: "",
     site: "",
     username: "",
     password: "",
@@ -14,7 +16,6 @@ const Manager = () => {
 
   // checks previous password stored in local staorage and load it
   useEffect(() => {
-    console.log("useeffect");
     const passwords = JSON.parse(localStorage.getItem("passwords"));
     if (passwords) {
       setPasswordArray(passwords);
@@ -47,9 +48,37 @@ const Manager = () => {
 
   // function to store password in state as well as localStorage
   const savePassword = () => {
-    setPasswordArray((prevArray) => [...prevArray, form]);
-    localStorage.setItem("passwords", JSON.stringify([...passwordArray, form]));
+    setPasswordArray((prevArray) => [...prevArray, { ...form, id: uuidv4() }]);
+    localStorage.setItem(
+      "passwords",
+      JSON.stringify([...passwordArray, { ...form, id: uuidv4() }])
+    );
     console.log([...passwordArray, form], "pArray"); //state takes time while updating
+    setForm({ id: "", site: "", username: "", password: "" });
+  };
+
+  //function to delete stored password
+  const deletePassword = (id) => {
+    const confirmation = confirm("Do you want to delete this Password?");
+    if (confirmation) {
+      setPasswordArray((prevArray) =>
+        prevArray.filter((password) => password.id !== id)
+      );
+      localStorage.setItem(
+        "passwords",
+        JSON.stringify(passwordArray.filter((password) => password.id !== id))
+      );
+    }
+  };
+
+  //function to edit password
+  const editPassword = (id) => {
+    passwordArray.map((item) => item.id === id && setForm({ ...item }));
+    setPasswordArray((prevArray) =>
+      prevArray.filter((password) => password.id !== id)
+    );
+
+    // setPasswordArray((prevArray)=>prevArray.map((password)=>password.id===id ?{...password}))
   };
 
   return (
@@ -107,20 +136,23 @@ const Manager = () => {
             </div>
           </div>
           <button
-            className="flex justify-center items-center gap-2 text-white bg-green-500 px-4 py-2 w-fit rounded-full mx-auto border-2 border-green-600 hover:bg-green-400"
+            className="flex justify-center items-center gap-2 bg-green-500 px-4 py-2 w-fit rounded-full mx-auto border-2 border-green-600 hover:bg-green-400"
             onClick={() => savePassword()}
           >
             <lord-icon
-              src="https://cdn.lordicon.com/zrkkrrpl.json"
+              src="https://cdn.lordicon.com/hqymfzvj.json"
               trigger="hover"
-              colors="primary:#ffffff,secondary:#ffffff"
             ></lord-icon>
-            Add Password
+            Save Password
           </button>
         </div>
       </div>
 
-      <Passwords passwordArray={passwordArray} />
+      <Passwords
+        passwordArray={passwordArray}
+        deletePassword={deletePassword}
+        editPassword={editPassword}
+      />
     </>
   );
 };

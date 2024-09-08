@@ -3,11 +3,11 @@ import { ToastContainer, toast } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
 
-const Passwords = ({ passwordArray }) => {
+const Passwords = ({ passwordArray, deletePassword, editPassword }) => {
   const copyText = (text) => {
-    toast("🦄 Copied to clipboard!", {
+    toast.success("🦄 Copired to clipboard", {
       position: "top-right",
-      autoClose: 5000,
+      autoClose: 4000,
       hideProgressBar: false,
       closeOnClick: true,
       pauseOnHover: true,
@@ -46,6 +46,7 @@ const Passwords = ({ passwordArray }) => {
                 <th>Website URL</th>
                 <th>Username</th>
                 <th>Password</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -84,6 +85,32 @@ const Passwords = ({ passwordArray }) => {
                         alt="copy"
                         onClick={() => copyText(item.password)}
                       />{" "}
+                    </div>
+                  </td>
+                  <td className="border border-white">
+                    <div className="flex justify-center items-center gap-3">
+                      <span
+                        className="cursor-pointer"
+                        onClick={() => deletePassword(item.id)}
+                      >
+                        <lord-icon
+                          src="https://cdn.lordicon.com/vlnvqvew.json"
+                          trigger="hover"
+                          colors="primary:#121331,secondary:#c71f16"
+                          style={{ width: "25px", height: "25px" }}
+                        ></lord-icon>
+                      </span>
+                      <span
+                        className="cursor-pointer"
+                        onClick={() => editPassword(item.id)}
+                      >
+                        <lord-icon
+                          src="https://cdn.lordicon.com/wuvorxbv.json"
+                          trigger="hover"
+                          colors="primary:#121331,secondary:#c71f16"
+                          style={{ width: "25px", height: "25px" }}
+                        ></lord-icon>
+                      </span>
                     </div>
                   </td>
                 </tr>
