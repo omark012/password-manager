@@ -46,15 +46,26 @@ const Manager = () => {
     }));
   };
 
-  // function to store password in state as well as localStorage
+  // function to save password in state as well as localStorage
   const savePassword = () => {
-    setPasswordArray((prevArray) => [...prevArray, { ...form, id: uuidv4() }]);
-    localStorage.setItem(
-      "passwords",
-      JSON.stringify([...passwordArray, { ...form, id: uuidv4() }])
-    );
-    console.log([...passwordArray, form], "pArray"); //state takes time while updating
-    setForm({ id: "", site: "", username: "", password: "" });
+    if (
+      form.site.length > 3 &&
+      form.username.length > 3 &&
+      form.password.length > 3
+    ) {
+      setPasswordArray((prevArray) => [
+        ...prevArray,
+        { ...form, id: uuidv4() },
+      ]);
+      localStorage.setItem(
+        "passwords",
+        JSON.stringify([...passwordArray, { ...form, id: uuidv4() }])
+      );
+      console.log([...passwordArray, form], "pArray"); //state takes time while updating
+      setForm({ id: "", site: "", username: "", password: "" });
+    } else {
+      alert("Error: Enter the Complete Details");
+    }
   };
 
   //function to delete stored password
@@ -84,9 +95,8 @@ const Manager = () => {
   return (
     <>
       {/* Background color */}
-      <div className="absolute inset-0 -z-10 h-full w-full bg-white [background:radial-gradient(125%_125%_at_50%_10%,#fff_40%,#63e_100%)]"></div>
 
-      <div className="mycontainer max-w-4xl">
+      <div className="p-4 md:mycontainer max-w-4xl min-h-[89.2vh]">
         <div className="logo font-bold text-4xl text-center">
           <span className="text-green-600">&lt;</span>
           Pass
@@ -104,7 +114,7 @@ const Manager = () => {
             name="site"
             placeholder="Enter Website Url"
           />
-          <div className="flex gap-6">
+          <div className="flex flex-col md:flex-row gap-6">
             <input
               className="rounded-full border border-green-400 w-full px-4 py-1"
               type="text"
@@ -146,13 +156,12 @@ const Manager = () => {
             Save Password
           </button>
         </div>
+        <Passwords
+          passwordArray={passwordArray}
+          deletePassword={deletePassword}
+          editPassword={editPassword}
+        />
       </div>
-
-      <Passwords
-        passwordArray={passwordArray}
-        deletePassword={deletePassword}
-        editPassword={editPassword}
-      />
     </>
   );
 };

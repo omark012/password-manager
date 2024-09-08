@@ -10,28 +10,6 @@ const Navbar = () => {
           <span className="text-green-600">Box/&gt;</span>
         </div>
 
-        <ul className="flex gap-4 items-center">
-          <li>
-            <a className="hover:font-bold" href="">
-              Home
-            </a>
-          </li>
-          <li>
-            <a className="hover:font-bold" href="">
-              About
-            </a>
-          </li>
-          <li>
-            <a className="hover:font-bold" href="">
-              Contact
-            </a>
-          </li>
-          <li>
-            <a className="hover:font-bold" href="">
-              Services
-            </a>
-          </li>
-        </ul>
         <a href="https://www.github.com" target="_blank">
           <img
             src="/images/github.png"

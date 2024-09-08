@@ -35,12 +35,12 @@ const Passwords = ({ passwordArray, deletePassword, editPassword }) => {
       />
       {/* Same as */}
       <ToastContainer />
-      <div className="password-container mycontainer pt-0">
-        <h1 className="font-bold text-xl mb-4">Your Passwords</h1>
+      <div className="password-container md:mycontainer pt-0">
+        <h1 className="font-bold text-xl my-6">Your Passwords</h1>
         {passwordArray.length === 0 ? (
           <div>No Passwords to Show</div>
         ) : (
-          <table className="table-auto w-full rounded-lg overflow-hidden">
+          <table className="table-auto w-full rounded-lg overflow-hidden bg-green-200 ">
             <thead className="bg-green-800 text-white">
               <tr>
                 <th>Website URL</th>
